@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Détails de l'article</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: #f5faff;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+      padding: 1rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+    h1 {
+      text-align: center;
+      padding: 1rem 0;
+      background: #0077b6;
+      color: white;
+      margin: 0 0 1rem 0;
+      border-radius: 6px;
+    }
+    .lang-theme {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    select.lang-select,
+    button.theme-toggle {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      background: #0077b6;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #detail-content {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark #detail-content {
+      background: #1e1e1e;
+      color: white;
+    }
+    a.back-link {
+      display: block;
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+      color: #0077b6;
+      text-decoration: none;
+    }
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 id="page-title">Détails</h1>
+
+  <div class="lang-theme">
+    <select class="lang-select"></select>
+    <button class="theme-toggle" id="themeBtn"></button>
+  </div>
+
+  <div id="detail-content">
+    <!-- تفاصيل الخبر تظهر هنا -->
+  </div>
+
+  <a href="index.html" class="back-link" id="back-link">← Retour aux nouvelles</a>
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    let currentLang = localStorage.getItem('lang') || getQueryParam('lang') || 'fr';
+    let isDark = localStorage.getItem('dark') === 'true';
+
+    if (isDark) {
+      document.body.classList.add('dark');
+    }
+
+    const langSelect = document.querySelector('.lang-select');
+
+    function fillLangOptions() {
+      langSelect.innerHTML = '';
+      const langs = { fr: '🇫🇷 Français', en: '🇬🇧 English', ar: '🇪🇬 عربي' };
+      for (const [code, name] of Object.entries(langs)) {
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = name;
+        langSelect.appendChild(option);
+      }
+      langSelect.value = currentLang;
+    }
+
+    fillLangOptions();
+
+    function updateThemeButton() {
+      const themeBtn = document.getElementById('themeBtn');
+      if (currentLang === 'fr') themeBtn.textContent = isDark ? '☀️ Mode Clair' : '🌙 Mode Sombre';
+      else if (currentLang === 'en') themeBtn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      else if (currentLang === 'ar') themeBtn.textContent = isDark ? '☀️ الوضع النهاري' : '🌙 الوضع الليلي';
+    }
+    updateThemeButton();
+
+    const content = {
+      fr: {
+        sections: {
+          annonces: [
+            { id: "annonce-1", title: "Réunion des parents", text: "La réunion des parents aura lieu jeudi à 18h00 dans la salle principale." },
+            { id: "annonce-2", title: "Inscription aux clubs", text: "Les inscriptions aux clubs sont ouvertes jusqu'au 30 septembre." }
+          ],
+          sport: [
+            { id: "sport-1", title: "Tournoi de football", text: "Le tournoi interclasses de football commencera lundi prochain." },
+            { id: "sport-2", title: "Nouvelle salle de sport", text: "La salle de sport a été rénovée avec de nouveaux équipements modernes." }
+          ],
+          activites: [
+            { id: "activite-1", title: "Club de théâtre", text: "Les élèves présenteront une pièce de théâtre le mois prochain." },
+            { id: "activite-2", title: "Concours de dessin", text: "Un concours de dessin aura lieu mercredi prochain pour tous les niveaux." }
+          ]
+        }
+      },
+      en: {
+        sections: {
+          annonces: [
+            { id: "annonce-1", title: "Parent Meeting", text: "The parent meeting will be held on Thursday at 6 PM in the main hall." },
+            { id: "annonce-2", title: "Club Registration", text: "Club registration is open until September 30." }
+          ],
+          sport: [
+            { id: "sport-1", title: "Football Tournament", text: "The inter-class football tournament will start next Monday." },
+            { id: "sport-2", title: "New Gym", text: "The gym has been renovated with new modern equipment." }
+          ],
+          activites: [
+            { id: "activite-1", title: "Drama Club", text: "Students will perform a play next month." },
+            { id: "activite-2", title: "Drawing Contest", text: "A drawing contest will be held next Wednesday for all levels." }
+          ]
+        }
+      },
+      ar: {
+        sections: {
+          annonces: [
+            { id: "annonce-1", title: "اجتماع أولياء الأمور", text: "سيُعقد اجتماع أولياء الأمور يوم الخميس الساعة 6 مساءً في القاعة الرئيسية." },
+            { id: "annonce-2", title: "تسجيل الأندية", text: "تم فتح باب التسجيل في الأندية حتى 30 سبتمبر." }
+          ],
+          sport: [
+            { id: "sport-1", title: "بطولة كرة القدم", text: "ستبدأ بطولة كرة القدم بين الفصول يوم الاثنين المقبل." },
+            { id: "sport-2", title: "صالة الألعاب الجديدة", text: "تم تجديد صالة الألعاب الرياضية بمعدات حديثة." }
+          ],
+          activites: [
+            { id: "activite-1", title: "نادي المسرح", text: "سيقدم الطلاب مسرحية الشهر القادم." },
+            { id: "activite-2", title: "مسابقة الرسم", text: "ستُقام مسابقة رسم يوم الأربعاء القادم لجميع المراحل." }
+          ]
+        }
+      }
+    };
+
+    const id = getQueryParam('id');
+
+    function findItem(id, lang) {
+      const allItems = []
+        .concat(content[lang].sections.annonces)
+        .concat(content[lang].sections.sport)
+        .concat(content[lang].sections.activites);
+      return allItems.find(item => item.id === id);
+    }
+
+    function renderContent() {
+      const item = findItem(id, currentLang);
+      const container = document.getElementById('detail-content');
+      const pageTitle = document.getElementById('page-title');
+      if (item) {
+        container.innerHTML = `
+          <h2>${item.title}</h2>
+          <p>${item.text}</p>
+        `;
+        pageTitle.textContent = item.title;
+      } else {
+        container.innerHTML = '<p style="color:red; text-align:center;">Article non trouvé / Article not found / المقال غير موجود</p>';
+        pageTitle.textContent = currentLang === 'fr' ? 'Erreur' : currentLang === 'en' ? 'Error' : 'خطأ';
+      }
+    }
+
+    function changeLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      renderContent();
+      updateThemeButton();
+
+      // عدل الرابط العودة مع اللغة الجديدة
+      const backLink = document.getElementById('back-link');
+      backLink.href = `index.html?lang=${currentLang}`;
+    }
+
+    function toggleTheme() {
+      isDark = !isDark;
+      localStorage.setItem('dark', isDark);
+      if (isDark) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      updateThemeButton();
+    }
+
+    langSelect.addEventListener('change', e => changeLang(e.target.value));
+    document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+
+    renderContent();
+
+    // ضبط قيمة القائمة والزر حسب الحالة المحفوظة
+    langSelect.value = currentLang;
+    updateThemeButton();
+
+  </script>
+</body>
+
+</html>

@@ -1,168 +1,251 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MUN</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouvelles de l'école</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    @media (max-width: 768px) {
-      header {
-        padding: 10px 15px;
-      }
-
-      .main {
-        background: #222;
-        padding: 80px 20px;
-      }
-
-      .main h2 {
-        font-size: 1.1em;
-      }
-
-      .main h2 span {
-        font-size: 1.6em;
-      }
-
-      .main h3 {
-        font-size: 1.2em;
-      }
-
-      .main-btn {
-        padding: 10px 20px;
-        font-size: 1em;
-      }
-
-      .navigation {
-        background-color: #f9f9f9;
-        border-top: 1px solid #ccc;
-      }
-
-      .navigation a {
-        font-size: 1em;
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .project-image img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: #f5faff;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+    h2 {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 2rem;
+    }
+    .section {
+      background: white;
+      padding: 2rem;
+      animation: fadeInUp 1s ease;
+      transition: background 0.3s ease;
+    }
+    .sport-section {
+      background: #eef9ff;
+      transition: background 0.3s ease;
+    }
+    body.dark .section {
+      background: #1e1e1e;
+    }
+    body.dark .sport-section {
+      background: #121212;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      color: inherit;
+    }
+    body.dark .card {
+      background: #1e1e1e;
+      color: white;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 1rem;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .lang-theme {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    select.lang-select, button.theme-toggle {
+      margin: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      background: #0077b6;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    select.lang-select {
+      background: #0077b6;
+      color: white;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
     }
   </style>
 </head>
+
 <body>
+  <h1 style="text-align: center; padding: 1rem; background: #0077b6; color: white;" id="page-title">Nouvelles de l'école</h1>
 
-<header>
-  <a href="#" class="logo">MUN</a>
-  <div class="menu-toggle" id="menu-toggle">
-    <i class="fas fa-bars"></i>
+  <div class="lang-theme">
+    <select class="lang-select" onchange="changeLang(this.value)">
+      <option value="fr">🇫🇷 Français</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="ar">🇪🇬 عربي</option>
+    </select>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Mode Sombre</button>
   </div>
-  <nav class="navigation" id="nav-menu">
-    <a href="#services">Services</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</header>
 
-<section class="main">
-  <div>
-    <h2>Hello, I'm Kiro<br><span>Mun Manager</span></h2>
-    <h3>I build life changing courses</h3>
-    <a href="#projects" class="main-btn">View my work</a>
-    <div class="social-icons">
-      <a href="#"><i class="fab fa-linkedin"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-youtube"></i></a>
-    </div>
+  <div class="section">
+    <h2 id="annonces-title">📰 Annonces</h2>
+    <div class="cards" id="annonces-cards"></div>
   </div>
-</section>
 
-<section class="services" id="services">
-  <h2 class="title">Services</h2>
-  <div class="content">
-    <div class="card">
-      <div class="icon"><i class="fas fa-edit"></i></div>
-      <div class="info">
-        <h3>Script Writing</h3>
-        <p>Research and write scripts for different topics ready for video production.</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="icon"><i class="fas fa-video"></i></div>
-      <div class="info">
-        <h3>Video Production</h3>
-        <p>Record, produce, and edit high-quality educational content and materials.</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="icon"><i class="fas fa-graduation-cap"></i></div>
-      <div class="info">
-        <h3>Curriculum Development</h3>
-        <p>Create and manage structured curriculums for technical education and training.</p>
-      </div>
-    </div>
+  <div class="section sport-section">
+    <h2 id="sport-title">🏆 Sport</h2>
+    <div class="cards" id="sport-cards"></div>
   </div>
-</section>
 
-<section class="projects" id="projects">
-  <h2 class="title">Projects</h2>
-  <div class="content">
-    <div class="project-card">
-      <div class="project-image">
-        <img src="images/2c243a53051041.5925fc247b30a.jpg" alt="Project">
-      </div>
-      <div class="project-info">
-        <p class="project-category">Script Writing & Video Production</p>
-        <div class="project-title">
-          <span>Dev Books</span>
-          <a href="#" class="more-details">More details</a>
-        </div>
-      </div>
-    </div>
+  <div class="section">
+    <h2 id="activites-title">🎨 Activités</h2>
+    <div class="cards" id="activites-cards"></div>
   </div>
-</section>
 
-<section class="contact" id="contact">
-  <h2 class="title">Let's work together</h2>
-  <div class="content">
-    <div class="card">
-      <div class="icon"><i class="fas fa-phone"></i></div>
-      <div class="info">
-        <h3>Phone</h3>
-        <p>+20122222222</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="icon"><i class="fas fa-envelope"></i></div>
-      <div class="info">
-        <h3>Email</h3>
-        <p>business@kiro.com</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <script>
+    const content = {
+      fr: {
+        title: "Nouvelles de l'école",
+        themeBtn: "🌙 Mode Sombre",
+        sections: {
+          annonces: [
+            { id: "annonce-1", title: "Réunion des parents", text: "La réunion des parents aura lieu jeudi à 18h00 dans la salle principale." },
+            { id: "annonce-2", title: "Inscription aux clubs", text: "Les inscriptions aux clubs sont ouvertes jusqu'au 30 septembre." }
+          ],
+          sport: [
+            { id: "sport-1", title: "Tournoi de football", text: "Le tournoi interclasses de football commencera lundi prochain." },
+            { id: "sport-2", title: "Nouvelle salle de sport", text: "La salle de sport a été rénovée avec de nouveaux équipements modernes." }
+          ],
+          activites: [
+            { id: "activite-1", title: "Club de théâtre", text: "Les élèves présenteront une pièce de théâtre le mois prochain." },
+            { id: "activite-2", title: "Concours de dessin", text: "Un concours de dessin aura lieu mercredi prochain pour tous les niveaux." }
+          ]
+        }
+      },
+      en: {
+        title: "School News",
+        themeBtn: "🌙 Dark Mode",
+        sections: {
+          annonces: [
+            { id: "annonce-1", title: "Parent Meeting", text: "The parent meeting will be held on Thursday at 6 PM in the main hall." },
+            { id: "annonce-2", title: "Club Registration", text: "Club registration is open until September 30." }
+          ],
+          sport: [
+            { id: "sport-1", title: "Football Tournament", text: "The inter-class football tournament will start next Monday." },
+            { id: "sport-2", title: "New Gym", text: "The gym has been renovated with new modern equipment." }
+          ],
+          activites: [
+            { id: "activite-1", title: "Drama Club", text: "Students will perform a play next month." },
+            { id: "activite-2", title: "Drawing Contest", text: "A drawing contest will be held next Wednesday for all levels." }
+          ]
+        }
+      },
+      ar: {
+        title: "أخبار المدرسة",
+        themeBtn: "🌙 الوضع الليلي",
+        sections: {
+          annonces: [
+            { id: "annonce-1", title: "اجتماع أولياء الأمور", text: "سيُعقد اجتماع أولياء الأمور يوم الخميس الساعة 6 مساءً في القاعة الرئيسية." },
+            { id: "annonce-2", title: "تسجيل الأندية", text: "تم فتح باب التسجيل في الأندية حتى 30 سبتمبر." }
+          ],
+          sport: [
+            { id: "sport-1", title: "بطولة كرة القدم", text: "ستبدأ بطولة كرة القدم بين الفصول يوم الاثنين المقبل." },
+            { id: "sport-2", title: "صالة الألعاب الجديدة", text: "تم تجديد صالة الألعاب الرياضية بمعدات حديثة." }
+          ],
+          activites: [
+            { id: "activite-1", title: "نادي المسرح", text: "سيقدم الطلاب مسرحية الشهر القادم." },
+            { id: "activite-2", title: "مسابقة الرسم", text: "ستُقام مسابقة رسم يوم الأربعاء القادم لجميع المراحل." }
+          ]
+        }
+      }
+    };
 
-<footer class="footer">
-  <p>© 2025 <a href="#" class="name">Kiro Sobhy</a>. All rights reserved.</p>
-  <div class="social-icons">
-    <a href="#"><i class="fab fa-linkedin"></i></a>
-    <a href="#"><i class="fab fa-twitter"></i></a>
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-github"></i></a>
-  </div>
-</footer>
+    let currentLang = localStorage.getItem('lang') || 'fr';
+    let isDark = localStorage.getItem('dark') === 'true';
 
-<script>
-  const toggleBtn = document.getElementById('menu-toggle');
-  const navMenu = document.getElementById('nav-menu');
-  toggleBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-  });
-</script>
+    const pageTitle = document.getElementById('page-title');
+    const themeBtn = document.getElementById('themeBtn');
+    const langSelect = document.querySelector('.lang-select');
 
+    function updateThemeButton() {
+      if (currentLang === 'fr') themeBtn.textContent = isDark ? '☀️ Mode Clair' : '🌙 Mode Sombre';
+      else if (currentLang === 'en') themeBtn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      else if (currentLang === 'ar') themeBtn.textContent = isDark ? '☀️ الوضع النهاري' : '🌙 الوضع الليلي';
+    }
+
+    function applyTheme() {
+      if (isDark) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      updateThemeButton();
+    }
+
+    function renderCards(sectionId, items) {
+      const container = document.getElementById(sectionId);
+      container.innerHTML = '';
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="images/1.jpg" alt="">
+          <div class="card-content">
+            <h3>${item.title}</h3>
+            <p>${item.text}</p>
+            <a href="details.html?id=${item.id}&lang=${currentLang}" style="color:#0077b6; font-weight:bold; text-decoration:none;">→ ${currentLang === 'ar' ? 'اقرأ المزيد' : currentLang === 'en' ? 'Read More' : 'Lire la suite'}</a>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderContent() {
+      const data = content[currentLang];
+      pageTitle.textContent = data.title;
+      langSelect.value = currentLang;
+      renderCards('annonces-cards', data.sections.annonces);
+      renderCards('sport-cards', data.sections.sport);
+      renderCards('activites-cards', data.sections.activites);
+      applyTheme();
+    }
+
+    function changeLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      renderContent();
+    }
+
+    function toggleTheme() {
+      isDark = !isDark;
+      localStorage.setItem('dark', isDark);
+      applyTheme();
+    }
+
+    langSelect.value = currentLang;
+    renderContent();
+  </script>
 </body>
+
 </html>
