@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nouvelles de l'école</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="images/1.jpg" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Cairo', sans-serif;
@@ -24,20 +25,12 @@
       font-size: 2rem;
     }
     .section {
-      background: white;
       padding: 2rem;
       animation: fadeInUp 1s ease;
-      transition: background 0.3s ease;
-    }
-    .sport-section {
-      background: #eef9ff;
-      transition: background 0.3s ease;
+      transition: background 0.3s;
     }
     body.dark .section {
-      background: #1e1e1e;
-    }
-    body.dark .sport-section {
-      background: #121212;
+      background-color: #1e1e1e !important;
     }
     .cards {
       display: grid;
@@ -49,9 +42,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       overflow: hidden;
-      transition: transform 0.3s ease;
-      cursor: pointer;
-      color: inherit;
+      transition: transform 0.3s ease, background 0.3s;
     }
     body.dark .card {
       background: #1e1e1e;
@@ -68,15 +59,22 @@
     .card-content {
       padding: 1rem;
     }
+    .card-content a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #0077b6;
+      font-weight: bold;
+      text-decoration: none;
+    }
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .lang-theme {
+    .lang-buttons {
       text-align: center;
       margin-top: 1rem;
     }
-    select.lang-select, button.theme-toggle {
+    .lang-select, .theme-toggle {
       margin: 0.5rem;
       padding: 0.5rem 1rem;
       border: none;
@@ -89,6 +87,7 @@
     select.lang-select {
       background: #0077b6;
       color: white;
+      border: none;
       font-weight: bold;
       padding: 0.5rem 1rem;
       border-radius: 6px;
@@ -99,7 +98,7 @@
 <body>
   <h1 style="text-align: center; padding: 1rem; background: #0077b6; color: white;" id="page-title">Nouvelles de l'école</h1>
 
-  <div class="lang-theme">
+  <div class="lang-buttons">
     <select class="lang-select" onchange="changeLang(this.value)">
       <option value="fr">🇫🇷 Français</option>
       <option value="en">🇬🇧 English</option>
@@ -108,18 +107,18 @@
     <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Mode Sombre</button>
   </div>
 
-  <div class="section">
-    <h2 id="annonces-title">📰 Annonces</h2>
+  <div class="section" id="annonces-section">
+    <h2 id="annonces-title"></h2>
     <div class="cards" id="annonces-cards"></div>
   </div>
 
-  <div class="section sport-section">
-    <h2 id="sport-title">🏆 Sport</h2>
+  <div class="section" id="sport-section">
+    <h2 id="sport-title"></h2>
     <div class="cards" id="sport-cards"></div>
   </div>
 
-  <div class="section">
-    <h2 id="activites-title">🎨 Activités</h2>
+  <div class="section" id="activites-section">
+    <h2 id="activites-title"></h2>
     <div class="cards" id="activites-cards"></div>
   </div>
 
@@ -128,124 +127,113 @@
       fr: {
         title: "Nouvelles de l'école",
         themeBtn: "🌙 Mode Sombre",
+        readMore: "Lire la suite",
         sections: {
-          annonces: [
-            { id: "annonce-1", title: "Réunion des parents", text: "La réunion des parents aura lieu jeudi à 18h00 dans la salle principale." },
-            { id: "annonce-2", title: "Inscription aux clubs", text: "Les inscriptions aux clubs sont ouvertes jusqu'au 30 septembre." }
-          ],
-          sport: [
-            { id: "sport-1", title: "Tournoi de football", text: "Le tournoi interclasses de football commencera lundi prochain." },
-            { id: "sport-2", title: "Nouvelle salle de sport", text: "La salle de sport a été rénovée avec de nouveaux équipements modernes." }
-          ],
-          activites: [
-            { id: "activite-1", title: "Club de théâtre", text: "Les élèves présenteront une pièce de théâtre le mois prochain." },
-            { id: "activite-2", title: "Concours de dessin", text: "Un concours de dessin aura lieu mercredi prochain pour tous les niveaux." }
-          ]
+          annonces: { title: "📰 Annonces", items: [
+            { id: "a1", title: "Réunion des parents", text: "La réunion des parents aura lieu jeudi à 18h00 dans la salle principale.", image: "images/1.jpg" },
+            { id: "a2", title: "Inscription aux clubs", text: "Les inscriptions aux clubs sont ouvertes jusqu'au 30 septembre.", image: "images/1.jpg" }
+          ]},
+          sport: { title: "🏆 Sport", items: [
+            { id: "s1", title: "Tournoi de football", text: "Le tournoi interclasses de football commencera lundi prochain.", image: "images/1.jpg" },
+            { id: "s2", title: "Nouvelle salle de sport", text: "La salle de sport a été rénovée avec de nouveaux équipements modernes.", image: "images/1.jpg" }
+          ]},
+          activites: { title: "🎨 Activités", items: [
+            { id: "ac1", title: "Club de théâtre", text: "Les élèves présenteront une pièce de théâtre le mois prochain.", image: "images/1.jpg" },
+            { id: "ac2", title: "Concours de dessin", text: "Un concours de dessin aura lieu mercredi prochain pour tous les niveaux.", image: "images/1.jpg" }
+          ]}
         }
       },
       en: {
         title: "School News",
         themeBtn: "🌙 Dark Mode",
+        readMore: "Read More",
         sections: {
-          annonces: [
-            { id: "annonce-1", title: "Parent Meeting", text: "The parent meeting will be held on Thursday at 6 PM in the main hall." },
-            { id: "annonce-2", title: "Club Registration", text: "Club registration is open until September 30." }
-          ],
-          sport: [
-            { id: "sport-1", title: "Football Tournament", text: "The inter-class football tournament will start next Monday." },
-            { id: "sport-2", title: "New Gym", text: "The gym has been renovated with new modern equipment." }
-          ],
-          activites: [
-            { id: "activite-1", title: "Drama Club", text: "Students will perform a play next month." },
-            { id: "activite-2", title: "Drawing Contest", text: "A drawing contest will be held next Wednesday for all levels." }
-          ]
+          annonces: { title: "📰 Announcements", items: [
+            { id: "a1", title: "Parent Meeting", text: "The parent meeting will be held on Thursday at 6 PM in the main hall.", image: "images/1.jpg" },
+            { id: "a2", title: "Club Registration", text: "Club registration is open until September 30.", image: "images/1.jpg" }
+          ]},
+          sport: { title: "🏆 Sports", items: [
+            { id: "s1", title: "Football Tournament", text: "The inter-class football tournament will start next Monday.", image: "images/1.jpg" },
+            { id: "s2", title: "New Gym", text: "The gym has been renovated with new modern equipment.", image: "images/1.jpg" }
+          ]},
+          activites: { title: "🎨 Activities", items: [
+            { id: "ac1", title: "Drama Club", text: "Students will perform a play next month.", image: "images/1.jpg" },
+            { id: "ac2", title: "Drawing Contest", text: "A drawing contest will be held next Wednesday for all levels.", image: "images/1.jpg" }
+          ]}
         }
       },
       ar: {
         title: "أخبار المدرسة",
         themeBtn: "🌙 الوضع الليلي",
+        readMore: "اقرأ المزيد",
         sections: {
-          annonces: [
-            { id: "annonce-1", title: "اجتماع أولياء الأمور", text: "سيُعقد اجتماع أولياء الأمور يوم الخميس الساعة 6 مساءً في القاعة الرئيسية." },
-            { id: "annonce-2", title: "تسجيل الأندية", text: "تم فتح باب التسجيل في الأندية حتى 30 سبتمبر." }
-          ],
-          sport: [
-            { id: "sport-1", title: "بطولة كرة القدم", text: "ستبدأ بطولة كرة القدم بين الفصول يوم الاثنين المقبل." },
-            { id: "sport-2", title: "صالة الألعاب الجديدة", text: "تم تجديد صالة الألعاب الرياضية بمعدات حديثة." }
-          ],
-          activites: [
-            { id: "activite-1", title: "نادي المسرح", text: "سيقدم الطلاب مسرحية الشهر القادم." },
-            { id: "activite-2", title: "مسابقة الرسم", text: "ستُقام مسابقة رسم يوم الأربعاء القادم لجميع المراحل." }
-          ]
+          annonces: { title: "📰 الإعلانات", items: [
+            { id: "a1", title: "اجتماع أولياء الأمور", text: "سيُعقد اجتماع أولياء الأمور يوم الخميس الساعة 6 مساءً في القاعة الرئيسية.", image: "images/1.jpg" },
+            { id: "a2", title: "تسجيل الأندية", text: "تم فتح باب التسجيل في الأندية حتى 30 سبتمبر.", image: "images/1.jpg" }
+          ]},
+          sport: { title: "🏆 الرياضة", items: [
+            { id: "s1", title: "بطولة كرة القدم", text: "ستبدأ بطولة كرة القدم بين الفصول يوم الاثنين المقبل.", image: "images/1.jpg" },
+            { id: "s2", title: "صالة الألعاب الجديدة", text: "تم تجديد صالة الألعاب الرياضية بمعدات حديثة.", image: "images/1.jpg" }
+          ]},
+          activites: { title: "🎨 الأنشطة", items: [
+            { id: "ac1", title: "نادي المسرح", text: "سيقدم الطلاب مسرحية الشهر القادم.", image: "images/1.jpg" },
+            { id: "ac2", title: "مسابقة الرسم", text: "ستُقام مسابقة رسم يوم الأربعاء القادم لجميع المراحل.", image: "images/1.jpg" }
+          ]}
         }
       }
     };
 
     let currentLang = localStorage.getItem('lang') || 'fr';
-    let isDark = localStorage.getItem('dark') === 'true';
-
-    const pageTitle = document.getElementById('page-title');
-    const themeBtn = document.getElementById('themeBtn');
-    const langSelect = document.querySelector('.lang-select');
-
-    function updateThemeButton() {
-      if (currentLang === 'fr') themeBtn.textContent = isDark ? '☀️ Mode Clair' : '🌙 Mode Sombre';
-      else if (currentLang === 'en') themeBtn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-      else if (currentLang === 'ar') themeBtn.textContent = isDark ? '☀️ الوضع النهاري' : '🌙 الوضع الليلي';
-    }
-
-    function applyTheme() {
-      if (isDark) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
-      updateThemeButton();
-    }
-
-    function renderCards(sectionId, items) {
-      const container = document.getElementById(sectionId);
-      container.innerHTML = '';
-      items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="images/1.jpg" alt="">
-          <div class="card-content">
-            <h3>${item.title}</h3>
-            <p>${item.text}</p>
-            <a href="details.html?id=${item.id}&lang=${currentLang}" style="color:#0077b6; font-weight:bold; text-decoration:none;">→ ${currentLang === 'ar' ? 'اقرأ المزيد' : currentLang === 'en' ? 'Read More' : 'Lire la suite'}</a>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
 
     function renderContent() {
       const data = content[currentLang];
-      pageTitle.textContent = data.title;
-      langSelect.value = currentLang;
-      renderCards('annonces-cards', data.sections.annonces);
-      renderCards('sport-cards', data.sections.sport);
-      renderCards('activites-cards', data.sections.activites);
-      applyTheme();
+      document.getElementById('page-title').textContent = data.title;
+      document.getElementById('themeBtn').textContent = data.themeBtn;
+      document.getElementById('annonces-title').textContent = data.sections.annonces.title;
+      document.getElementById('sport-title').textContent = data.sections.sport.title;
+      document.getElementById('activites-title').textContent = data.sections.activites.title;
+
+      function renderCards(sectionId, items) {
+        const container = document.getElementById(sectionId);
+        container.innerHTML = '';
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <img src="${item.image}" alt="${item.title}">
+            <div class="card-content">
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <a href="details.html?id=${item.id}&lang=${currentLang}">${data.readMore}</a>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      renderCards('annonces-cards', data.sections.annonces.items);
+      renderCards('sport-cards', data.sections.sport.items);
+      renderCards('activites-cards', data.sections.activites.items);
     }
 
     function changeLang(lang) {
       currentLang = lang;
       localStorage.setItem('lang', lang);
       renderContent();
+      document.querySelector('.lang-select').value = lang;
     }
 
     function toggleTheme() {
-      isDark = !isDark;
-      localStorage.setItem('dark', isDark);
-      applyTheme();
+      document.body.classList.toggle('dark');
+      localStorage.setItem('dark', document.body.classList.contains('dark'));
     }
 
-    langSelect.value = currentLang;
+    if (localStorage.getItem('dark') === 'true') {
+      document.body.classList.add('dark');
+    }
+
     renderContent();
+    document.querySelector('.lang-select').value = currentLang;
   </script>
 </body>
-
 </html>
